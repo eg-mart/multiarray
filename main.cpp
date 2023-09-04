@@ -26,22 +26,16 @@ int main()
 	puts(GREEN("\nprinting triangle table:"));
 	print_triangle(arr, ROWS);
 
-	struct Matrix matrix = { NULL, 3, 3 };
-	int data[3][3] = { { 1, 2, 3 },
-					   { 4, 5, 6 },
-					   { 7, 8, 9 } };
-	matrix.data = *data;
-
-	puts(GREEN("\nprinting a matrix:"));
-	print_matrix(&matrix);
-
-	struct Matrix res = { NULL, 3, 3 };
-	allocate_matrix(&res);
-	multiply_matrix(&matrix, &matrix, &res);
+	int matrix[] = { 3, 3,
+					 1, 2, 3,
+					 4, 5, 6,
+					 7, 8, 9 };
+	int *res = allocate_matrix(3, 3);
+	multiply_matrix(matrix, matrix, res);
 
 	puts(GREEN("\nprinting matrix product:"));
-	print_matrix(&res);
-	free(res.data);
+	print_matrix(res);
+	free(res);
 	
 	return 0;
 }
