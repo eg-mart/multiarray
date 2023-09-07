@@ -22,7 +22,7 @@ enum Matrix_error print_matrix(const struct Matrix *matrix)
 void multiply_matrix(const struct Matrix *first, const struct Matrix *second,
 					 struct Matrix *result)
 {
-	assert(first != NULL);
+	assert(first  != NULL);
 	assert(second != NULL);
 	assert(result != NULL);
 	assert(first->cols == second->rows);
@@ -56,7 +56,7 @@ int get_element(const struct Matrix *matrix, size_t row_idx, size_t col_idx)
 	assert(row_idx < matrix->rows);
 	assert(col_idx < matrix->cols);
 
-	return matrix->data[row_idx * matrix->cols + col_idx];
+	return *((int*) ((size_t) matrix->data + sizeof(int) * (row_idx * matrix->cols + col_idx)));
 }
 
 int set_element(struct Matrix *matrix, size_t row_idx, size_t col_idx, int new_element)
