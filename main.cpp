@@ -54,10 +54,33 @@ int main()
 		return 1;
 	}
 
+	size_t read_lines = LINES;
+	size_t read_chars = CHARS;
+
 	puts(GREEN("\nprinting back the lines read from the testing file:"));
-	char table[LINES][CHARS] = {{0}};
-	size_t read_lines = getlines(input, *table, LINES, CHARS);
-	print_lines(*table, read_lines, CHARS);
+
+	char *table = (char *) calloc(LINES * CHARS, sizeof(char));
+	if (table == NULL) {
+		puts(RED("Error allocating table"));
+		return 1;
+	}
+
+	getlines(input, &table, &read_lines, &read_chars);
+	print_lines(table, read_lines, read_chars);
+	free(table);
+	table = NULL;
+
+	input = fopen("test_with_size.txt", "r");
+	if (input == NULL) {
+		puts(RED("\nError opening a testing file"));
+		return 1;
+	}
+
+	puts(GREEN("\nprinting back the lines read from another testing file:"));
+	getlines(input, &table, &read_lines, &read_chars);
+	print_lines(table, read_lines, read_chars);
+	free(table);
+	table = NULL;
 	
 	return 0;
 }
