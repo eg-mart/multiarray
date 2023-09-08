@@ -1,9 +1,11 @@
 #include <stdio.h>
 
+const size_t BUF_SIZE = 1024;
+
 enum ReadError {
-	NO_READ_ERR  =  0,
-	ERR_NO_SIZE  = -1,
-	ERR_READ_MEM = -2
+	NO_READ_ERR		=  0,
+	ERR_READ_MEM	= -2,
+	ERR_READ_FAILED = -3
 };
 
-enum ReadError getlines(FILE *file, char **table, size_t *lines, size_t *line_len);
+enum ReadError getlines(FILE *file, char *table[], size_t *lines);

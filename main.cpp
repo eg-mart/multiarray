@@ -8,7 +8,7 @@
 #define GREEN(str) "\033[32m" str "\033[0m"
 
 void print_table(char *str, size_t rows, size_t cols);
-void print_lines(char *str, size_t lines, size_t line_len);
+void print_lines(char *str[], size_t lines);
 void print_triangle(int *arr, size_t rows);
 
 const size_t COLS = 5;
@@ -55,32 +55,16 @@ int main()
 	}
 
 	size_t read_lines = LINES;
-	size_t read_chars = CHARS;
 
 	puts(GREEN("\nprinting back the lines read from the testing file:"));
 
-	char *table = (char *) calloc(LINES * CHARS, sizeof(char));
-	if (table == NULL) {
-		puts(RED("Error allocating table"));
-		return 1;
-	}
+	char *table[LINES] = {0};
 
-	getlines(input, &table, &read_lines, &read_chars);
-	print_lines(table, read_lines, read_chars);
-	free(table);
-	table = NULL;
+	getlines(input, table, &read_lines);
+	print_lines(table, read_lines);
 
-	input = fopen("test_with_size.txt", "r");
-	if (input == NULL) {
-		puts(RED("\nError opening a testing file"));
-		return 1;
-	}
-
-	puts(GREEN("\nprinting back the lines read from another testing file:"));
-	getlines(input, &table, &read_lines, &read_chars);
-	print_lines(table, read_lines, read_chars);
-	free(table);
-	table = NULL;
+	for (size_t line_idx = 0; line_idx < LINES; line_idx++)
+		free(table[line_idx]);
 	
 	return 0;
 }
@@ -97,12 +81,12 @@ void print_table(char *str, size_t rows, size_t cols)
 	}
 }
 
-void print_lines(char *str, size_t lines, size_t line_len)
+void print_lines(char *str[], size_t lines)
 {
 	assert(str != NULL);
 
 	for (size_t line_idx = 0; line_idx < lines; line_idx++)
-		printf("%s", str + line_idx * line_len);
+		printf("%s", str[line_idx]);
 }
 
 void print_triangle(int *arr, size_t rows)
